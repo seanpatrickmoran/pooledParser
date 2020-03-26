@@ -1,6 +1,5 @@
 #! /usr/bin/env python3
 
-import urllib
 import requests
 import sys
 from lxml import html
@@ -11,8 +10,6 @@ from multiprocessing import cpu_count
 
 def crawl(P,GeneID,ENSGid):
     tree = html.fromstring(P.content)
-    pARRAY = list()
-    # strpath = '/html/body/table/tr/td[2]/div[3]/table[last()]/tr[last()-1]/th/table[2]/tbody'
     pARRAY = list()
     try:
         assert tree.xpath('//*[contains(@class, "cellThumbs ")][1]')[0] is not None
@@ -37,12 +34,12 @@ def image_parse(ENSGid='ENSG00000136997',GeneID='MYC'):
     print(ENSGid,GeneID)
     P = requests.get("https://www.proteinatlas.org/{}-{}/cell".format(ENSGid,GeneID))
     if P.status_code == 200:
-        pARRAY = crawl(P,GeneID,ENSGid)
+        crawl(P,GeneID,ENSGid)
     else:
         print("https://www.proteinatlas.org/{}-{}/cell".format(GeneID,ENSGid))
         P = requests.get("https://www.proteinatlas.org/{}-{}/cell".format(GeneID.rstrip('\n'),ENSGid))
         if P.status_code == 200:
-            pARRAY = crawl(P,GeneID,ENSGid)
+            crawl(P,GeneID,ENSGid)
         else:
             print("https://www.proteinatlas.org/{}-{}/cell does not contain IF images".format(GeneID,ENSGid))
 
@@ -63,17 +60,9 @@ if __name__ == '__main__':
                         loader = []
                 p.starmap(image_parse,loader)
         except IndexError:
-    # with open(sys.argv[1]) as f:
-    # 	loader = list()
-    # 	for line in f:
-    # 		A,B = line.split('\t')[0].rstrip(' '),line.split('\t')[1].lstrip(' ')
-    # 		print(A,B)
-    # 		image_parse(A,B)
             print("./poolHUMANATLAS_imageparser INPUT.txt\nIn: two column, tab delimited list of GeneID and ENSGid. UNIProt also works. ID orders do not matter. Row must be two entries.")
 
 """
-# P = requests.get("https://www.proteinatlas.org/ENSG00000136997-MYC/cell")
-
 
 Debug examples:
 
