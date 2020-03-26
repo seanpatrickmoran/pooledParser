@@ -73,6 +73,6 @@ def call_and_write(in_file_name):
             write_to_pandas.extend(RETURN)
     #print(write_to_pandas)
     pd.DataFrame(write_to_pandas).to_csv(''.join([in_file_name[:-4],'.OUTPUT.txt']), header=None, index=None, sep='\t', mode='a')
-    pd.DataFrame(write_to_pandas).to_excel(''.join([in_file_name[:-4],'.xlsx']), header=False, index=False)
+    #pd.DataFrame(write_to_pandas).to_excel(''.join([in_file_name[:-4],'.xlsx']), header=False, index=False)
     # for X in RETURN:
     #     print(X)
