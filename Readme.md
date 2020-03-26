@@ -43,7 +43,7 @@ Output: Many files of line length 1K, chunked from input. This will be formatted
 
 ####scrape:
 ```
-pooledparser --command scrape --i "filename"
+pooledParser --command scrape --i "filename"
 
 Input: textfile with lines such as GeneID + \t + UniProtID. Using ENSG instead of GeneName is also okay. Something like this:
 SNRPA1 	 P09661
