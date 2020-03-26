@@ -4,3 +4,6 @@
 urllib3
 requests
 lxml
+json
+pandas
+openpyxl
