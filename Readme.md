@@ -4,7 +4,7 @@ A simple scraping script for proteinatlas.org for extracting IF images whenever 
 \
 Dependencies are python3, requests and lxml.
 ```
-https://github.com/spmoran/pooledParser.git
+git clone ttps://github.com/spmoran/pooledParser.git
 chmod 755 pooledParser.py
 
 pooledParser.py INPUT
