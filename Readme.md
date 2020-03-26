@@ -5,9 +5,10 @@ A simple scraping script for proteinatlas.org for extracting IF images whenever 
 Dependencies are python3, requests and lxml.
 ```
 git clone ttps://github.com/spmoran/pooledParser.git
-chmod 755 pooledParser.py
+pip install -r ./pooledParser/requirements.txt
+chmod 755 ./pooledParser/pooledParser.py
 
-pooledParser.py INPUT
+./pooledParser/pooledParser.py INPUT
 ```
 
 Input is like:\
