@@ -21,7 +21,7 @@ There are three major commands:
 
 ####get:
 ```
-pooledparser --command get --i "./pathwaydirectory"
+pooledparser --command get --i ~/pathway/directory/
 
 Input: output of the chomp command, or input should be a JQ_(N-1)Kto(N)K.txt file, where a list of UNIPROT ids.
 Out: JQ_OUT.txt should be table of outputs with:
@@ -34,7 +34,7 @@ Intermediate files (1K each) also included in case of breakage.
 
 ####chomp:
 ```
-pooledparser --command chomp --i "filename"
+pooledparser --command chomp --i filename
 
 Input: List of Uniprot ID's.
 Output: Many files of line length 1K, chunked from input. This will be formatted for the get function.
@@ -43,7 +43,7 @@ Output: Many files of line length 1K, chunked from input. This will be formatted
 
 ####scrape:
 ```
-pooledParser --command scrape --i "filename"
+pooledParser --command scrape --i filename
 
 Input: textfile with lines such as GeneID + \t + UniProtID. Using ENSG instead of GeneName is also okay. Something like this:
 SNRPA1 	 P09661
