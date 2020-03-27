@@ -23,7 +23,10 @@ There are three major commands:
 ```
 pooledparser --command get --i ~/pathway/directory/
 
-Input: output of the chomp command, or input should be a JQ_(N-1)Kto(N)K.txt file, where a list of UNIPROT ids.
+Input: directory containing output of the chomp command, or input
+should be a directory containing JQ_(N-1)Kto(N)K.txt files, where
+a list of UNIPROT ids.
+
 Out: JQ_OUT.txt should be table of outputs with:
 
 --------------------------------------------------------------------
@@ -37,7 +40,8 @@ Intermediate files (1K each) also included in case of breakage.
 pooledparser --command chomp --i filename
 
 Input: List of Uniprot ID's.
-Output: Many files of line length 1K, chunked from input. This will be formatted for the get function.
+Output: Many files of line length 1K, chunked from input. This will
+be formatted for the get function.
 
 ```
 
@@ -45,10 +49,15 @@ Output: Many files of line length 1K, chunked from input. This will be formatted
 ```
 pooledParser --command scrape --i filename
 
-Input: textfile with lines such as GeneID + \t + UniProtID. Using ENSG instead of GeneName is also okay. Something like this:
+Input: textfile with lines such as GeneID + \t + UniProtID. Using 
+ENSG instead of GeneName is also okay. Something like this:
+
 SNRPA1 	 P09661
 SETD2 	 A0A1W2PPX9
 PTPN23 	 Q9H3S7
 
-Output: all IF images availible for entry on proteinatlas.org. Several other photos are not accessible this way (need JQuery to server), so proteins of interest should still be checked manually. All are in format: {COL1}-{COL2}<htmlimagepath>.jpg
+Output: all IF images availible for entry on proteinatlas.org. 
+Several other photos are not accessible this way (need JQuery to 
+server), so proteins of interest should still be checked manually.
+All are in format: {COL1}-{COL2}<htmlimagepath>.jpg
 ```
