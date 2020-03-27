@@ -5,6 +5,7 @@ import argparse
 from getdir import dMass_Call
 from scrapedir import scrape
 
+
 def pooledParser():
     argue = argparse.ArgumentParser()
     argue.add_argument("--command",dest="command", choices=("scrape","chomp","get"), default="instruct",
@@ -19,4 +20,6 @@ def pooledParser():
         dMass_Call.run_get(args.input_arg)
     else:
         print('args.')
+
+
 pooledParser()

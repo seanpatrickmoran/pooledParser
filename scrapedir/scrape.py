@@ -6,7 +6,7 @@ import urllib.request
 from multiprocessing import Pool
 from multiprocessing import cpu_count
 
-print("running scrape")
+
 def crawl(P,GeneID,ENSGid):
     tree = html.fromstring(P.content)
     pARRAY = list()
@@ -44,7 +44,6 @@ def image_parse(ENSGid='ENSG00000136997',GeneID='MYC'):
 
 
 def scrape(in_file):
-    print("running scrape")
     N = cpu_count()-1
     print("{} cores avail".format(N))
     with Pool(N) as p:
@@ -65,6 +64,10 @@ def scrape(in_file):
 
 
 """
+PATH broken here
+
+
+
 Debug examples:
 
 P = requests.getdir("https://www.proteinatlas.org/ENSG00000136997-MYC/cell")
