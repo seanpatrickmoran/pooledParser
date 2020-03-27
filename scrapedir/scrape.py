@@ -1,5 +1,6 @@
 #! /usr/bin/env python3
 
+import os
 import requests
 from lxml import html
 import urllib.request
@@ -7,7 +8,7 @@ from multiprocessing import Pool
 from multiprocessing import cpu_count
 
 
-def crawl(P,GeneID,ENSGid):
+def crawl(P,GeneID,ENSGid,feed_dir):
     tree = html.fromstring(P.content)
     pARRAY = list()
     try:
@@ -20,7 +21,8 @@ def crawl(P,GeneID,ENSGid):
                 print('error')
         for IMG in pARRAY:
             print('grabbing {}'.format(IMG))
-            name = '_'.join([ENSGid,GeneID,IMG.split("/")[-1]])
+            rawname = '_'.join([ENSGid,GeneID,IMG.split("/")[-1]])
+            name = '/'.join([feed_dir,rawname])
             urllib.request.urlretrieve("https:{}".format(IMG), name)
     except AssertionError:
         print(GeneID, ENSGid)
@@ -28,22 +30,45 @@ def crawl(P,GeneID,ENSGid):
         pass
 
 
-def image_parse(ENSGid='ENSG00000136997',GeneID='MYC'):
+def image_parse(ENSGid='ENSG00000136997',GeneID='MYC',feed_dir='.'):
     print('initialized {}'.format(GeneID))
     print(ENSGid,GeneID)
     P = requests.get("https://www.proteinatlas.org/{}-{}/cell".format(ENSGid,GeneID))
     if P.status_code == 200:
-        crawl(P,GeneID,ENSGid)
+        crawl(P,GeneID,ENSGid,feed_dir)
     else:
         print("https://www.proteinatlas.org/{}-{}/cell".format(GeneID,ENSGid))
         P = requests.get("https://www.proteinatlas.org/{}-{}/cell".format(GeneID.rstrip('\n'),ENSGid))
         if P.status_code == 200:
-            crawl(P,GeneID,ENSGid)
+            crawl(P,GeneID,ENSGid,feed_dir)
         else:
             print("https://www.proteinatlas.org/{}-{}/cell does not contain IF images".format(GeneID,ENSGid))
 
 
 def scrape(in_file):
+    feed_dir = ''
+    try:
+        if os.path.isfile(in_file):
+            feed_dir = '/'.join(in_file.split('/')[:-1])
+            print('passes')
+    except FileNotFoundError:
+        print('input must be a directory')
+        exit()
+
+    # def image_parse(ENSGid='ENSG00000136997', GeneID='MYC'):
+    #     print('initialized {}'.format(GeneID))
+    #     print(ENSGid, GeneID)
+    #     P = requests.get("https://www.proteinatlas.org/{}-{}/cell".format(ENSGid, GeneID))
+    #     if P.status_code == 200:
+    #         crawl(P, GeneID, ENSGid,feed_dir)
+    #     else:
+    #         print("https://www.proteinatlas.org/{}-{}/cell".format(GeneID, ENSGid))
+    #         P = requests.get("https://www.proteinatlas.org/{}-{}/cell".format(GeneID.rstrip('\n'), ENSGid))
+    #         if P.status_code == 200:
+    #             crawl(P, GeneID, ENSGid,feed_dir)
+    #         else:
+    #             print("https://www.proteinatlas.org/{}-{}/cell does not contain IF images".format(GeneID, ENSGid))
+
     N = cpu_count()-1
     print("{} cores avail".format(N))
     with Pool(N) as p:
@@ -53,7 +78,7 @@ def scrape(in_file):
                 for line in f:
                     A,B = line.split('\t')[0].rstrip(' ').rstrip('\n'),line.split('\t')[1].lstrip(' ').rstrip('\n')
                     # print(repr(A),repr(B))
-                    loader.append((A,B))
+                    loader.append((A,B,feed_dir))
                     if len(loader) == N:
                         p.starmap(image_parse,loader)
                         loader = []

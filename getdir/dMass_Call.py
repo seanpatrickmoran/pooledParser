@@ -14,8 +14,8 @@ def run_get(pwd_dir):
             feed_dir = pwd_dir
             print('passes')
     except FileNotFoundError:
-        feed_dir = subprocess.call("pwd {}".format(pwd_dir), shell=True)
-        print('fails')
+        print('input must be a directory')
+        exit()
     batchlist = []
     for file in os.listdir(feed_dir):
         if file.startswith("JQ_") and file.endswith("K.txt"):
